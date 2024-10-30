@@ -17,4 +17,4 @@ EXPOSE 8089
 # Copier le JAR téléchargé depuis l'étape downloader
 COPY --from=downloader /kaddem-0.0.1-20241030.162205-1.jar kaddem-0.0.1-20241030.162205-1.jar
 
-ENTRYPOINT ["java", "-jar", "/kaddem-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/kaddem-0.0.1-20241030.162205-1.jar"]
