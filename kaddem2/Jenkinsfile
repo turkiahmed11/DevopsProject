@@ -1,22 +1,38 @@
 pipeline {
     agent any
+    tools {
+        maven 'M2_HOME'  // Assurez-vous que Maven est installé
+    }
+    environment {
+        SONARQUBE_URL = 'http://localhost:9000'  // URL de votre serveur SonarQube
+        SONARQUBE_TOKEN = credentials('sonar-token')  // Vous pouvez configurer ce token sous Jenkins Credentials
+    }
     stages {
-        stage('Build') {
+        stage('GIT') {
             steps {
-                echo 'Building the project...'
-                // Ajouter les étapes de build ici
+                git branch: 'shiraz_msalmi_kaddem2',
+                    url: 'git@github.com:turkiahmed11/DevopsProject.git',
+                    credentialsId: 'jenkins-example-github-pat'
             }
         }
-        stage('Test') {
+        stage('Clean and Compile') {
             steps {
-                echo 'Running tests...'
-                // Ajouter les étapes de tests ici
+                script {
+                    sh 'mvn clean compile'
+                }
             }
         }
-        stage('Deploy') {
+        stage('SonarQube Analysis') {
             steps {
-                echo 'Deploying the project...'
-                // Ajouter les étapes de déploiement ici
+                script {
+                    // Exécute la commande Maven pour analyser le code avec SonarQube
+                    sh """
+                        mvn sonar:sonar \
+                            -Dsonar.projectKey=my-project-key \
+                            -Dsonar.host.url=${env.SONARQUBE_URL} \
+                            -Dsonar.login=${env.SONARQUBE_TOKEN}
+                    """
+                }
             }
         }
     }
