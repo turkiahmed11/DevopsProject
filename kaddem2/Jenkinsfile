@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the Spring Boot project from your repository
-                git 'https://github.com/your-repository/springboot-app.git'  // Update with your repo URL
+                git 'https://github.com/turkiahmed11/DevopsProject.git'  // Update with your repo URL
             }
         }
 
@@ -23,8 +23,8 @@ pipeline {
                         sh '''
                         mvn clean verify sonar:sonar \
                         -Dsonar.projectKey=your_project_key \
-                        -Dsonar.host.url=http://192.168.56.146\
-                        -Dsonar.login=squ_297e01b961bbdacdc64cc1ac4f963641044236ef  // SonarQube token for authentication
+                        -Dsonar.host.url=http://192.168.56.146:9000\
+                        -Dsonar.login= squ_5b3b37f706897652e877ba88586b6e89f68922b6 // SonarQube token for authentication
                         '''
                     }
                 }
