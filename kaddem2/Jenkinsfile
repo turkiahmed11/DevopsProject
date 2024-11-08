@@ -1,39 +1,79 @@
 pipeline {
     agent any
-    tools {
-        maven 'M2_HOME'  // Assurez-vous que Maven est installé
-    }
+
     environment {
-        SONARQUBE_URL = 'http://localhost:9000'  // URL de votre serveur SonarQube
-        SONARQUBE_TOKEN = credentials('sonar-token')  // Vous pouvez configurer ce token sous Jenkins Credentials
+        // Set SonarQube properties
+        SONARQUBE = 'SonarQube'  // Name of your SonarQube server configured in Jenkins
+        MAVEN_HOME = tool 'Maven 3'  // Maven tool installed in Jenkins (change as necessary)
     }
+
     stages {
-        stage('GIT') {
+        stage('Checkout') {
             steps {
-                git branch: 'shiraz_msalmi_kaddem2',
-                    url: 'git@github.com:turkiahmed11/DevopsProject.git',
-                    credentialsId: 'jenkins-example-github-pat'
+                // Checkout the Spring Boot project from your repository
+                git 'https://github.com/your-repository/springboot-app.git'  // Update with your repo URL
             }
         }
-        stage('Clean and Compile') {
-            steps {
-                script {
-                    sh 'mvn clean compile'
-                }
-            }
-        }
+
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Exécute la commande Maven pour analyser le code avec SonarQube
-                    sh """
-                        mvn sonar:sonar \
-                            -Dsonar.projectKey=my-project-key \
-                            -Dsonar.host.url=${env.SONARQUBE_URL} \
-                            -Dsonar.login=${env.SONARQUBE_TOKEN}
-                    """
+                    // Run SonarQube analysis
+                    withSonarQubeEnv(SONARQUBE) {
+                        sh '''
+                        mvn clean verify sonar:sonar \
+                        -Dsonar.projectKey=your_project_key \
+                        -Dsonar.host.url=http://192.168.56.146\
+                        -Dsonar.login=squ_297e01b961bbdacdc64cc1ac4f963641044236ef  // SonarQube token for authentication
+                        '''
+                    }
                 }
             }
+        }
+
+        stage('Build') {
+            steps {
+                // Build the Spring Boot application using Maven
+                sh '''
+                mvn clean package
+                '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Run tests (if applicable)
+                sh '''
+                mvn test
+                '''
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Deploy your Spring Boot application (for example, to a test server)
+                sh '''
+                java -jar target/your-app.jar
+                '''
+            }
+        }
+
+        stage('SonarQube Quality Gate') {
+            steps {
+                script {
+                    // Wait for the SonarQube analysis to complete and check the quality gate status
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and SonarQube analysis completed successfully!'
+        }
+        failure {
+            echo 'Build failed. Check the logs for errors.'
         }
     }
 }
