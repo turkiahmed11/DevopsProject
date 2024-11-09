@@ -44,10 +44,11 @@
     <!-- Configuration de déploiement dans Nexus -->
     <distributionManagement>
         <repository>
-            <id>deploymentRepo</id>
+            <id>nexus-repo</id> <!-- This ID should match the repository configuration in your settings.xml -->
             <name>Nexus Repository</name>
-            <url>http://localhost:8081/repository/maven-releases/</url>
+            <url>http://localhost:8081/repository/maven-releases/</url> <!-- Update the Nexus URL accordingly -->
         </repository>
-    </distributionManagement>
-
-</project>
+        <snapshotRepository>
+            <id>nexus-snapshots</id> <!-- This is for snapshot versions -->
+            <url>http://localhost:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
