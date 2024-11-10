@@ -14,6 +14,7 @@
     <description>kaddem</description>
     <properties>
         <java.version>1.8</java.version>
+        <log4j.version>2.19.0</log4j.version> <!-- Use Log4j 2.x -->
     </properties>
     <distributionManagement>
         <repository>
@@ -23,6 +24,16 @@
         </repository>
     </distributionManagement>
     <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
