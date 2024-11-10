@@ -19,8 +19,6 @@ pipeline {
                     // Vérifier la structure du répertoire pour s'assurer que pom.xml est là
                     sh 'echo "Liste des fichiers dans le répertoire courant:"'
                     sh 'ls -la' // Liste les fichiers et répertoires dans le répertoire courant
-                    // Vérifiez le répertoire kaddem2/src pour s'assurer que pom.xml est présent
-                    sh 'ls -la kaddem2/src' // Liste les fichiers dans le répertoire src
                 }
             }
         }
@@ -28,11 +26,8 @@ pipeline {
         stage('Clean and Build') {
             steps {
                 script {
-                    // Changer de répertoire pour le dossier où pom.xml est situé, ici kaddem2/src
-                    dir('kaddem2/src') {  // Assurez-vous que le chemin vers 'src' est correct
-                        // Nettoyage et compilation avec Maven
-                        sh 'mvn clean install -DskipTests'
-                    }
+                    // Nettoyage et compilation avec Maven directement à la racine où se trouve pom.xml
+                    sh 'mvn clean install -DskipTests'
                 }
             }
         }
