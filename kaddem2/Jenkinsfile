@@ -7,6 +7,22 @@ pipeline {
     }
 
     stages {
+        stage('Checkout SCM') {
+            steps {
+                checkout scm // Clonage du code depuis votre dépôt Git
+            }
+        }
+
+        stage('Verify Directory Structure') {
+            steps {
+                // Vérifier la structure du répertoire pour s'assurer que le pom.xml est là
+                script {
+                    sh 'echo "Liste des fichiers dans le répertoire courant:"'
+                    sh 'ls -la' // Liste les fichiers et répertoires
+                }
+            }
+        }
+
         stage('Clean and Build') {
             steps {
                 script {
@@ -44,4 +60,3 @@ pipeline {
         }
     }
 }
-
