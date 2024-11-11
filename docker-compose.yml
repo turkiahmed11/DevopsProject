@@ -1,31 +1,30 @@
-version: "3.8"
-
 services:
-  mysqldb:
+  mysql:
     image: mysql:5.7
+    container_name: mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: mazen
+      MYSQL_ROOT_PASSWORD: 123
       MYSQL_USER: mazen
       MYSQL_PASSWORD: 123
       MYSQL_DATABASE: kaddem_db
-
     ports:
       - "3306:3306"
     volumes:
-      - db:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
-  app-timesheet:
+  spring-boot:
     depends_on:
-      - mysqldb
+      - mysql
     image: devops529/kaddem:2.0.0
-    restart: on-failure
+    container_name: spring-boot
+    restart : always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/kaddem_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123
     ports:
       - "8089:8089"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/kaddem_db
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: mazen
 
 volumes:
-  db:
+  mysql_data:
