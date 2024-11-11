@@ -16,7 +16,7 @@ services:
   spring-boot:
     depends_on:
       - mysql
-    image: devops529/kaddem:2.0.0
+    image: devops529/kaddem:3.0.0
     container_name: spring-boot
     restart : always
     environment:
