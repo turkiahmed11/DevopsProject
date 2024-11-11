@@ -14,7 +14,7 @@ services:
   app:
     depends_on:
       - mysqldb
-    image: jaouher12/kaddem-0.0.1-20241030.170029-1.jar
+    image: jaouher12/kaddem-0.0.1-20241111.213315-1.jar
     restart: on-failure
     ports:
       - 8089:8089
