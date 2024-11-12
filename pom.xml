@@ -15,7 +15,14 @@
     <description>kaddem</description>
     <properties>
         <java.version>1.8</java.version>
+        <sonar.projectKey>tn.esprit.spring:kaddem</sonar.projectKey>
+        <sonar.projectName>kaddem</sonar.projectName>
+        <sonar.sources>src/main/java</sonar.sources>
+        <sonar.tests>src/test/java</sonar.tests>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
+
     <distributionManagement>
         <repository>
             <id>deploymentRepo</id>
@@ -84,7 +91,6 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.6</version>
                 <executions>
-                    <!-- Prepare JaCoCo for collecting coverage data during tests -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
@@ -92,21 +98,12 @@
                         </goals>
                         <phase>test</phase>
                     </execution>
-                    <!-- Generate coverage report after tests -->
                     <execution>
                         <id>report</id>
                         <goals>
                             <goal>report</goal>
                         </goals>
                         <phase>prepare-package</phase>
-                    </execution>
-                    <!-- Generate an HTML report of the coverage in the Maven site directory -->
-                    <execution>
-                        <id>report-site</id>
-                        <phase>site</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
