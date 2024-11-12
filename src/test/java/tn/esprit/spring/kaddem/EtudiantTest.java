@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-public class EtudiantServiceImplMock {
+public class EtudiantTest{
     @Mock
     DepartementRepository departementRepository;
     // Ou
