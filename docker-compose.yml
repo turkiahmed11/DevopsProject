@@ -41,7 +41,13 @@ services:
     networks:
       - my-network
     restart: always
-
+  frontend:
+    image: medsahbi140/kaddem_front:latest  # Using your Angular image from Docker Hub
+    container_name: frontend-container
+    ports:
+      - "4200:80"
+    networks:
+      - my-network
 networks:
   my-network:
     driver: bridge
